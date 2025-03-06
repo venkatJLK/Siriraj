@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import './App.css'
-import LoginContainer from './components/login/LoginContainer';
+import React, { useState } from "react";
+import "./App.css";
+
+import AppRouter from "./router/AppRouter";
 
 function App() {
-
   return (
-    <React.Fragment>
-      <LoginContainer />
-    </React.Fragment>
-  )
+    <>
+      <AppRouter />
+    </>
+  );
 }
 
-export default App
+export default App;
