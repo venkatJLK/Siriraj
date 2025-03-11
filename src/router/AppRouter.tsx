@@ -6,13 +6,11 @@ import SignupPage from "../pages/SignupPage";
 
 const AppRouter = (): React.JSX.Element => {
   return (
-  
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-      </Routes>
-  
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+    </Routes>
   );
 };
 
