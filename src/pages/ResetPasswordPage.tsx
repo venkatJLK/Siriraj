@@ -56,28 +56,22 @@ import resetpassword from "../assets/resetpassword.png";
 const { Title, Text } = Typography;
 
 const LoginPage: React.FC = () => {
-  const [selectedRole, setSelectedRole] = useState<string>("Admin");
-
-  const roles = ["Admin", "Doctor", "Patient", "Staff"];
-
   return (
     <Row className="login-container" style={{ height: "100vh" }}>
       <Col
         xs={24}
         md={12}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          // background: "#f0f2f5",
-          padding: 20,
-        }}
+        // style={{
+        //   display: "flex",
+        //   flexDirection: "column",
+        //   justifyContent: "center",
+        //   alignItems: "center",
+        // }}
       >
         <img
           src={resetpassword}
           alt="Medical Team"
-          style={{ maxWidth: "100%" }}
+          style={{ maxWidth: "100%", maxHeight: "100vh" }}
         />
       </Col>
       <Col
