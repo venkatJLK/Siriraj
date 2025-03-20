@@ -55,8 +55,35 @@
   max-width: 50%;
 }
 
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #edf4ff !important;
+  width: 100%;
+}
 
+.ant-menu {
+  width: 100% !important;
+}
 
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #edf4ff !important;
+  width: 100%;
+}
+
+.ant-menu-dark .ant-menu-item-selected .anticon,
+.ant-menu-dark .ant-menu-item-selected span {
+  color: rgb(6, 36, 34) !important;
+  font-weight: bold;
+}
+
+:where(.css-dev-only-do-not-override-xex5fb).ant-menu-inline .ant-menu-item,
+:where(.css-dev-only-do-not-override-xex5fb).ant-menu-vertical .ant-menu-item,
+:where(.css-dev-only-do-not-override-xex5fb).ant-menu-inline
+  .ant-menu-submenu-title,
+:where(.css-dev-only-do-not-override-xex5fb).ant-menu-vertical
+  .ant-menu-submenu-title {
+  margin-inline: 0px !important;
+  border-radius: 0px !important;
+}
 @media (max-width: 768px) {
   .login-left {
     display: none;
