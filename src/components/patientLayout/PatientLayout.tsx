@@ -17,6 +17,7 @@ import {
   Typography,
   theme,
 } from "antd";
+import PatientContainer from "../patient/PatientContainer";
 
 const { Header, Sider, Content } = Layout;
 
@@ -50,7 +51,7 @@ const PatientLayout: React.FC = () => {
   );
 
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ height: "100vh" }} >
       <Sider
         trigger={null}
         collapsible
@@ -144,17 +145,11 @@ const PatientLayout: React.FC = () => {
             </Dropdown>
           </div>
         </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          Content
-        </Content>
+        
+        
+          <PatientContainer />
+     
+        
       </Layout>
     </Layout>
   );
