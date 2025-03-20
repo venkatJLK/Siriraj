@@ -6,6 +6,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
   BellOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -17,11 +18,18 @@ import {
   Typography,
   theme,
 } from "antd";
+import { useTranslation } from "react-i18next";
+import PatientContainer from "../patient/PatientContainer";
 
 const { Header, Sider, Content } = Layout;
 
 const PatientLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -42,9 +50,22 @@ const PatientLayout: React.FC = () => {
   const userMenu = (
     <Menu
       items={[
-        { key: "1", label: "Profile", icon: <UserOutlined /> },
-        { key: "2", label: "Settings", icon: <UploadOutlined /> },
-        { key: "3", label: "Logout", icon: <VideoCameraOutlined /> },
+        { key: "1", label: t("sidebar.overview"), icon: <UserOutlined /> },
+        { key: "2", label: t("sidebar.patients"), icon: <UploadOutlined /> },
+        {
+          key: "3",
+          label: t("sidebar.appointments"),
+          icon: <VideoCameraOutlined />,
+        },
+      ]}
+    />
+  );
+  const languageMenu = (
+    <Menu
+      onClick={(e) => changeLanguage(e.key)}
+      items={[
+        { key: "en", label: "English" },
+        { key: "th", label: "ไทย" },
       ]}
     />
   );
@@ -78,9 +99,17 @@ const PatientLayout: React.FC = () => {
             color: "#fff",
           }}
           items={[
-            { key: "1", icon: <UserOutlined />, label: "Overview" },
-            { key: "2", icon: <VideoCameraOutlined />, label: "Patients" },
-            { key: "3", icon: <UploadOutlined />, label: "Appointments" },
+            { key: "1", icon: <UserOutlined />, label: t("sidebar.overview") },
+            {
+              key: "2",
+              icon: <VideoCameraOutlined />,
+              label: t("sidebar.patients"),
+            },
+            {
+              key: "3",
+              icon: <UploadOutlined />,
+              label: t("sidebar.appointments"),
+            },
           ]}
         />
       </Sider>
@@ -115,6 +144,22 @@ const PatientLayout: React.FC = () => {
             <Badge count={3}>
               <BellOutlined style={{ fontSize: "18px", cursor: "pointer" }} />
             </Badge>
+
+            <Dropdown overlay={languageMenu} trigger={["click"]}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  gap: "8px",
+                }}
+              >
+                <GlobalOutlined style={{ fontSize: "18px" }} />
+                <Typography.Text>
+                  {i18n.language === "en" ? "English" : "ไทย"}
+                </Typography.Text>
+              </div>
+            </Dropdown>
 
             <Dropdown overlay={userMenu} placement="bottomRight">
               <div
@@ -153,7 +198,7 @@ const PatientLayout: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          <PatientContainer />
         </Content>
       </Layout>
     </Layout>
