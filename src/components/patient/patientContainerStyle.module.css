@@ -1,0 +1,137 @@
+.patientContainer {
+  padding: 10px;
+  padding-bottom: 3%;
+  background-color: #EDF4FF;
+  box-sizing: border-box;
+}
+
+.patientCard {
+  margin: 0 auto;
+  height: 86vh;           
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;      
+}
+
+@media (min-width: 769px) {
+  .patientCard {
+    overflow-y: auto;
+  }
+  .patientContainer {
+    padding-bottom: 0; 
+  }
+}
+
+.headingRow {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.headingCellCheckbox {
+  width: 5%;
+  text-align: center;
+}
+.headingCellPatientName {
+  width: 14%;
+  text-align: left;
+}
+.headingCellHnTn,
+.headingCellUserId,
+.headingCellGender,
+.headingCellDob {
+  width: 10%;
+  text-align: center;
+}
+.headingCellAge {
+  width: 5%;
+  text-align: center;
+}
+.headingCellPhone {
+  width: 15%;
+  text-align: center;
+}
+.headingCellEmail {
+  width: 25%;
+  text-align: center;
+}
+
+.dataRow {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 12px 0;
+  align-items: center;
+  cursor: pointer;
+  background-color: #FAFAFA;
+}
+
+.dataCellCheckbox {
+  width: 3%;
+  text-align: center;
+}
+.dataCellPatientName {
+  width: 15%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+.dataCellHnTn,
+.dataCellUserId,
+.dataCellGender,
+.dataCellDob {
+  width: 10%;
+  text-align: center;
+}
+.dataCellAge {
+  width: 5%;
+  text-align: center;
+}
+.dataCellPhone {
+  width: 15%;
+  text-align: center;
+}
+.dataCellEmail {
+  width: 25%;
+  text-align: center;
+}
+
+.tableScrollX {
+  flex: 1;
+  overflow-x: auto;  
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableScrollY {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 900px;
+}
+
+@media (max-width: 768px) {
+  .patientCard {
+    height: 100%;
+    overflow-x: auto;  
+    max-height: none;
+  }
+
+  .dataRow {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .tableScrollX {
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+  }
+
+  .tableScrollY {
+    max-height: 50vh;
+    overflow-y: auto;
+    min-width: 900px;
+  }
+}

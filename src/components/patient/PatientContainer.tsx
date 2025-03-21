@@ -15,9 +15,11 @@ import {
   Space,
   Typography,
   Checkbox,
+  Row,
+  Col,
 } from "antd";
 import type { MenuProps } from "antd";
-import "./patientContainerStyle.css";
+import styles from "./patientContainerStyle.module.css";
 import { t } from "i18next";
 
 function useMediaQuery(query: string) {
@@ -179,6 +181,7 @@ const PatientContainer: React.FC = () => {
       email: "william.wilson@example.com",
     },
   ];
+
   const filteredData = data
     .filter((item) => {
       const query = searchQuery.toLowerCase();
@@ -202,7 +205,6 @@ const PatientContainer: React.FC = () => {
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name)
     );
-
 
   useEffect(() => {
     setPage(0);
@@ -266,21 +268,18 @@ const PatientContainer: React.FC = () => {
     allKeys.length > 0 && allKeys.every((key) => selectedRowKeys.includes(key));
   const isIndeterminate =
     selectedRowKeys.length > 0 && selectedRowKeys.length < allKeys.length;
-  return (
     
-      <Card bordered={false} className="patient-card">
-        {isMobile ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 8,
-              marginBottom: 16,
-            }}
-          >
+  return (
+    <Card bordered={false} className={styles.patientCard}>
+      {isMobile ? (
+       
+        <Row gutter={[0, 8]} style={{ marginBottom: 16 }}>
+          <Col span={24}>
             <Typography.Title level={4} style={{ margin: 0 }}>
-            {t("patient.patients_list")}
+              {t("patient.patients_list")}
             </Typography.Title>
+          </Col>
+          <Col span={24}>
             <Button
               style={{
                 backgroundColor: "#A28F60",
@@ -291,6 +290,8 @@ const PatientContainer: React.FC = () => {
             >
               {t("patient.add_new_patient")}
             </Button>
+          </Col>
+          <Col span={24}>
             <Input
               placeholder={t("patient.search")}
               allowClear
@@ -299,12 +300,16 @@ const PatientContainer: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ width: "100%" }}
             />
+          </Col>
+          <Col span={24}>
             <Dropdown menu={filterMenu} trigger={["click"]}>
               <Button icon={<FilterOutlined />} style={{ width: "100%" }}>
                 {t("patient.filter")}
                 {filterGender !== "All" && `(${filterGender})`}
               </Button>
             </Dropdown>
+          </Col>
+          <Col span={24}>
             <Button
               icon={<SortAscendingOutlined />}
               onClick={() =>
@@ -314,20 +319,18 @@ const PatientContainer: React.FC = () => {
             >
               {t("patient.sort")} ({sortOrder === "asc" ? "Asc" : "Desc"})
             </Button>
-          </div>
-        ) : (
-          <>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingBottom: 16,
-              }}
-            >
+          </Col>
+        </Row>
+      ) : (
+        // Desktop Layout using Row and Col for header and controls
+        <>
+          <Row justify="space-between" align="middle" style={{ paddingBottom: 16 }}>
+            <Col>
               <Typography.Title level={4} style={{ margin: 0 }}>
                 {t("patient.patients_list")}
               </Typography.Title>
+            </Col>
+            <Col>
               <Button
                 style={{
                   backgroundColor: "#A28F60",
@@ -339,18 +342,15 @@ const PatientContainer: React.FC = () => {
               >
                 {t("patient.add_new_patient")}
               </Button>
-            </div>
-            <hr />
-            <Space
-              style={{
-                marginTop: 10,
-                marginBottom: 16,
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                padding: 8,
-              }}
-            >
+            </Col>
+          </Row>
+          <hr />
+          <Row
+            justify="space-between"
+            align="middle"
+            style={{ marginTop: 10, marginBottom: 16, padding: 8 }}
+          >
+            <Col>
               <Input
                 placeholder={t("patient.search")}
                 style={{ width: 250, background: "#F1F1F1" }}
@@ -359,6 +359,8 @@ const PatientContainer: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+            </Col>
+            <Col>
               <Space>
                 <Dropdown menu={filterMenu} trigger={["click"]}>
                   <Button
@@ -389,70 +391,69 @@ const PatientContainer: React.FC = () => {
                   {t("patient.sort")}
                 </Button>
               </Space>
-            </Space>
-          </>
-        )}
-        <div className="table-scroll-x">
-          <div className="table-scroll-y">
-            <div className="heading-row">
-              <div className="heading-cell-checkbox">
-                <Checkbox
-                  checked={isAllSelected}
-                  indeterminate={isIndeterminate}
-                  onChange={handleSelectAll}
-                />
-              </div>
-              <div className="heading-cell-patientName">
-                {t("patient.patient_name")}
-              </div>
-              <div className="heading-cell-hnTn">{t("patient.hn_tn")}</div>
-              <div className="heading-cell-userId">{t("patient.user_id")}</div>
-              <div className="heading-cell-gender">{t("patient.gender")}</div>
-              <div className="heading-cell-dob">{t("patient.dob")}</div>
-              <div className="heading-cell-age">{t("patient.age")}</div>
-              <div className="heading-cell-phone">{t("patient.phone")}</div>
-              <div className="heading-cell-email">{t("patient.email")}</div>
+            </Col>
+          </Row>
+        </>
+      )}
+
+      <div className={styles.tableScrollX}>
+        <div className={styles.tableScrollY}>
+          <div className={styles.headingRow}>
+            <div className={styles.headingCellCheckbox}>
+              <Checkbox
+                checked={isAllSelected}
+                indeterminate={isIndeterminate}
+                onChange={handleSelectAll}
+              />
             </div>
-
-
-            {paginatedData.length > 0 ? (
-              paginatedData.map((item) => {
-                const isSelected = selectedRowKeys.includes(item.key);
-                return (
-                  <div key={item.key} className="data-row">
-                    <div className="data-cell-checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={() => handleRowSelect(item.key)}
-                      />
-                    </div>
-                    <div className="data-cell-patientName">
-                      <Avatar
-                        src={item.image}
-                        style={{ marginRight: 10, marginLeft: 10 }}
-                      />
-                      {item.name}
-                    </div>
-                    <div className="data-cell-hnTn">{item.hn_tn}</div>
-                    <div className="data-cell-userId">{item.user_id}</div>
-                    <div className="data-cell-gender">{item.gender}</div>
-                    <div className="data-cell-dob">{item.dob}</div>
-                    <div className="data-cell-age">{item.age}</div>
-                    <div className="data-cell-phone">{item.phone}</div>
-                    <div className="data-cell-email">{item.email}</div>
-                  </div>
-                );
-              })
-            ) : (
-              <Card style={{ textAlign: "center", height: 65 }}>
-                <Typography>No Data</Typography>
-              </Card>
-            )}
+            <div className={styles.headingCellPatientName}>
+              {t("patient.patient_name")}
+            </div>
+            <div className={styles.headingCellHnTn}>{t("patient.hn_tn")}</div>
+            <div className={styles.headingCellUserId}>{t("patient.user_id")}</div>
+            <div className={styles.headingCellGender}>{t("patient.gender")}</div>
+            <div className={styles.headingCellDob}>{t("patient.dob")}</div>
+            <div className={styles.headingCellAge}>{t("patient.age")}</div>
+            <div className={styles.headingCellPhone}>{t("patient.phone")}</div>
+            <div className={styles.headingCellEmail}>{t("patient.email")}</div>
           </div>
 
-         
+          {paginatedData.length > 0 ? (
+            paginatedData.map((item) => {
+              const isSelected = selectedRowKeys.includes(item.key);
+              return (
+                <div key={item.key} className={styles.dataRow}>
+                  <div className={styles.dataCellCheckbox}>
+                    <Checkbox
+                      checked={isSelected}
+                      onChange={() => handleRowSelect(item.key)}
+                    />
+                  </div>
+                  <div className={styles.dataCellPatientName}>
+                    <Avatar
+                      src={item.image}
+                      style={{ marginRight: 10, marginLeft: 10 }}
+                    />
+                    {item.name}
+                  </div>
+                  <div className={styles.dataCellHnTn}>{item.hn_tn}</div>
+                  <div className={styles.dataCellUserId}>{item.user_id}</div>
+                  <div className={styles.dataCellGender}>{item.gender}</div>
+                  <div className={styles.dataCellDob}>{item.dob}</div>
+                  <div className={styles.dataCellAge}>{item.age}</div>
+                  <div className={styles.dataCellPhone}>{item.phone}</div>
+                  <div className={styles.dataCellEmail}>{item.email}</div>
+                </div>
+              );
+            })
+          ) : (
+            <Card style={{ textAlign: "center", height: 65 }}>
+              <Typography>No Data</Typography>
+            </Card>
+          )}
         </div>
-         <Pagination
+      </div>
+      <Pagination
         current={page + 1}
         style={{
           marginTop: 16,
@@ -465,8 +466,7 @@ const PatientContainer: React.FC = () => {
         showSizeChanger={false}
         itemRender={itemRender}
       />
-      </Card>
-    
+    </Card>
   );
 };
 
