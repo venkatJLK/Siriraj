@@ -75,12 +75,7 @@
   font-weight: bold;
 }
 
-:where(.css-dev-only-do-not-override-xex5fb).ant-menu-inline .ant-menu-item,
-:where(.css-dev-only-do-not-override-xex5fb).ant-menu-vertical .ant-menu-item,
-:where(.css-dev-only-do-not-override-xex5fb).ant-menu-inline
-  .ant-menu-submenu-title,
-:where(.css-dev-only-do-not-override-xex5fb).ant-menu-vertical
-  .ant-menu-submenu-title {
+.ant-menu-item {
   margin-inline: 0px !important;
   border-radius: 0px !important;
 }
