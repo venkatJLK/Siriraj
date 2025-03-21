@@ -24,5 +24,25 @@
     "deleteConfirmation": "Are you sure you want to delete this record?",
     "yes": "Yes",
     "no": "No"
+  },
+  "patient": {
+    "patients_list": "Patients List",
+    "add_new_patient": "Add New Patient",
+    "search": "Search ",
+    "filter": "Filter",
+    "sort": "Sort",
+    "patient_name": "Patient Name",
+        "hn_tn": "HN/TN",
+        "user_id": "User ID",
+        "gender": "Gender",
+        "dob": "DOB",
+        "age": "Age",
+        "phone": "Phone",
+        "email": "Email",
+        "next": "Next",
+        "previous": "Previous",
+
+    "patients": "Patients",
+    "appointments": "Appointments"
   }
 }

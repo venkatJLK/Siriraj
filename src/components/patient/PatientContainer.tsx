@@ -16,6 +16,7 @@ import {
   Typography,
   Checkbox,
 } from "antd";
+import { t } from "i18next";
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
@@ -57,7 +58,7 @@ const dataRowStyle = {
   margin: "12px 0",
   alignItems: "center",
   cursor: "pointer",
-  
+
 };
 
 const dataCellStyle = {
@@ -79,10 +80,9 @@ const PatientContainer = () => {
   const [rowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterGender, setFilterGender] = useState("All");
-  const [sortOrder, setSortOrder] = useState("asc"); // Removed TypeScript type annotation
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  // Store which rows are selected
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
   const data = [
     {
@@ -245,10 +245,10 @@ const PatientContainer = () => {
 
   const itemRender = (_, type, originalElement) => {
     if (type === "prev") {
-      return <a style={{ color: "#1890ff", fontWeight: "bold" }}>Previous</a>;
+      return <a style={{ color: "#1890ff", fontWeight: "bold" }}>{t("patient.previous")}</a>;
     }
     if (type === "next") {
-      return <a style={{ color: "#1890ff", fontWeight: "bold" }}>Next</a>;
+      return <a style={{ color: "#1890ff", fontWeight: "bold" }}>{t("patient.next")}</a>;
     }
     return originalElement;
   };
@@ -275,7 +275,6 @@ const PatientContainer = () => {
     );
   };
 
-  // Fixed handleSelectAll to use Ant Design's checkbox onChange signature
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       const allKeys = filteredData.map((item) => item.key);
@@ -292,8 +291,8 @@ const PatientContainer = () => {
     selectedRowKeys.length > 0 && selectedRowKeys.length < allKeys.length;
 
   return (
-    <div style={{ padding: 16, backgroundColor: "#EDF4FF"}}>
-      <Card bordered={false} style={{ margin: "0 auto",maxHeight: "90vh"}}>
+    <div style={{ padding: 16, backgroundColor: "#EDF4FF", height: "100vh", }} >
+      <Card bordered={false} style={{ margin: "0 auto",maxHeight: "90vh" }}>
         {isMobile ? (
           <div
             style={{
@@ -304,7 +303,7 @@ const PatientContainer = () => {
             }}
           >
             <Typography.Title level={4} style={{ margin: 0 }}>
-              Patients List
+              {t("patient.add_new_patient")}
             </Typography.Title>
             <Button
               style={{
@@ -313,11 +312,10 @@ const PatientContainer = () => {
                 width: "100%",
               }}
               icon={<PlusOutlined />}
-            >
-              Add New Patient
+            > {t("patient.add_new_patient")}
             </Button>
             <Input
-              placeholder="Search"
+              placeholder={t("patient.search")}
               allowClear
               prefix={<SearchOutlined />}
               value={searchQuery}
@@ -326,7 +324,7 @@ const PatientContainer = () => {
             />
             <Dropdown menu={filterMenu} trigger={["click"]}>
               <Button icon={<FilterOutlined />} style={{ width: "100%" }}>
-                Filter {filterGender !== "All" && `(${filterGender})`}
+              {t("patient.filter")} {filterGender !== "All" && `(${filterGender})`}
               </Button>
             </Dropdown>
             <Button
@@ -336,7 +334,7 @@ const PatientContainer = () => {
               }
               style={{ width: "100%" }}
             >
-              Sort ({sortOrder === "asc" ? "Asc" : "Desc"})
+              {t("patient.sort")} ({sortOrder === "asc" ? "Asc" : "Desc"})
             </Button>
           </div>
         ) : (
@@ -350,7 +348,7 @@ const PatientContainer = () => {
               }}
             >
               <Typography.Title level={4} style={{ margin: 0 }}>
-                Patients List
+                {t("patient.patients_list")}
               </Typography.Title>
               <Button
                 style={{
@@ -361,7 +359,7 @@ const PatientContainer = () => {
                 }}
                 icon={<PlusOutlined />}
               >
-                Add New Patient
+                 {t("patient.add_new_patient")}
               </Button>
             </div>
             <hr />
@@ -376,7 +374,7 @@ const PatientContainer = () => {
               }}
             >
               <Input
-                placeholder="Search"
+                placeholder= {t("patient.search")}
                 style={{ width: 250, background: "#F1F1F1" }}
                 allowClear
                 prefix={<SearchOutlined />}
@@ -394,7 +392,7 @@ const PatientContainer = () => {
                       height: "36px",
                     }}
                   >
-                    Filter {filterGender !== "All" && `(${filterGender})`}
+                   {t("patient.filter")}{filterGender !== "All" && `(${filterGender})`}
                   </Button>
                 </Dropdown>
                 <Button
@@ -409,15 +407,15 @@ const PatientContainer = () => {
                     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
                   }
                 >
-                  Sort
+                  {t("patient.sort")}
                 </Button>
               </Space>
             </Space>
           </>
         )}
 
-        <div style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
-          <div style={{ minWidth: "1000px",maxHeight: "40vh", overflowY: "auto" }}>
+        <div style={{ overflowX: "auto"}}>
+          <div style={{ minWidth: "1000px", maxHeight: "40vh", overflowY: "auto" }}>
             <div style={headingRowStyle}>
               <div style={headingCellStyle.checkbox}>
                 <Checkbox
@@ -426,14 +424,14 @@ const PatientContainer = () => {
                   onChange={handleSelectAll}
                 />
               </div>
-              <div style={headingCellStyle.patientName}>Patient Name</div>
-              <div style={headingCellStyle.hnTn}>HN/TN</div>
-              <div style={headingCellStyle.userId}>User ID</div>
-              <div style={headingCellStyle.gender}>Gender</div>
-              <div style={headingCellStyle.dob}>DOB</div>
-              <div style={headingCellStyle.age}>Age</div>
-              <div style={headingCellStyle.phone}>Phone</div>
-              <div style={headingCellStyle.email}>Email</div>
+              <div style={headingCellStyle.patientName}>{t("patient.patient_name")}</div>
+              <div style={headingCellStyle.hnTn}>{t("patient.hn_tn")}</div>
+              <div style={headingCellStyle.userId}>{t("patient.user_id")}</div>
+              <div style={headingCellStyle.gender}>{t("patient.gender")}</div>
+              <div style={headingCellStyle.dob}>{t("patient.dob")}</div>
+              <div style={headingCellStyle.age}>{t("patient.age")}</div>
+              <div style={headingCellStyle.phone}>{t("patient.phone")}</div>
+              <div style={headingCellStyle.email}>{t("patient.email")}</div>
             </div>
 
             {paginatedData.length > 0 ? (
@@ -476,11 +474,10 @@ const PatientContainer = () => {
               </Card>
             )}
           </div>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
+          
           <Pagination
             current={page + 1}
+            style={{ marginTop: 16, display: "flex", justifyContent: "flex-end" }}
             pageSize={rowsPerPage}
             total={filteredData.length}
             onChange={(newPage) => setPage(newPage - 1)}
@@ -488,6 +485,8 @@ const PatientContainer = () => {
             itemRender={itemRender}
           />
         </div>
+
+        
       </Card>
     </div>
   );
