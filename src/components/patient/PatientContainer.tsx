@@ -16,15 +16,16 @@ import {
   Typography,
   Checkbox,
 } from "antd";
+import type { MenuProps } from "antd";
+import "./patientContainerStyle.css";
 import { t } from "i18next";
 
-function useMediaQuery(query) {
+function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
 
   useEffect(() => {
     const media = window.matchMedia(query);
-    const listener = (e) => setMatches(e.matches);
-
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
     media.addEventListener("change", listener);
     return () => media.removeEventListener("change", listener);
   }, [query]);
@@ -32,59 +33,31 @@ function useMediaQuery(query) {
   return matches;
 }
 
-const headingRowStyle = {
-  display: "flex",
-  borderBottom: "1px solid #ccc",
-  marginBottom: 10,
-  fontWeight: "bold",
-};
+interface PatientData {
+  key: string;
+  name: string;
+  image: string;
+  hn_tn: string;
+  user_id: string;
+  gender: string;
+  dob: string;
+  age: string;
+  phone: string;
+  email: string;
+}
 
-const headingCellStyle = {
-  checkbox: { width: "5%", textAlign: "center" },
-  patientName: { width: "14%", textAlign: "left" },
-  hnTn: { width: "10%", textAlign: "center" },
-  userId: { width: "10%", textAlign: "center" },
-  gender: { width: "10%", textAlign: "center" },
-  dob: { width: "10%", textAlign: "center" },
-  age: { width: "5%", textAlign: "center" },
-  phone: { width: "15%", textAlign: "center" },
-  email: { width: "25%", textAlign: "center" },
-};
-
-const dataRowStyle = {
-  display: "flex",
-  borderRadius: 8,
-  padding: 10,
-  margin: "12px 0",
-  alignItems: "center",
-  cursor: "pointer",
-
-};
-
-const dataCellStyle = {
-  checkbox: { width: "3%", textAlign: "center" },
-  patientName: { width: "15%", textAlign: "center", display: "flex", alignItems: "center" },
-  hnTn: { width: "10%", textAlign: "center" },
-  userId: { width: "10%", textAlign: "center" },
-  gender: { width: "10%", textAlign: "center" },
-  dob: { width: "10%", textAlign: "center" },
-  age: { width: "5%", textAlign: "center" },
-  phone: { width: "15%", textAlign: "center" },
-  email: { width: "25%", textAlign: "center" },
-};
-
-const PatientContainer = () => {
+const PatientContainer: React.FC = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage] = useState(5);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filterGender, setFilterGender] = useState("All");
-  const [sortOrder, setSortOrder] = useState("asc");
-
+  // ------------------ STATE ------------------
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage] = useState<number>(8);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filterGender, setFilterGender] = useState<"All" | "Female" | "Male">("All");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
-  const data = [
+  const data: PatientData[] = [
     {
       key: "1",
       name: "Barbara Taylor",
@@ -206,8 +179,6 @@ const PatientContainer = () => {
       email: "william.wilson@example.com",
     },
   ];
-
-  // Filter, search, and sort operations
   const filteredData = data
     .filter((item) => {
       const query = searchQuery.toLowerCase();
@@ -232,29 +203,35 @@ const PatientContainer = () => {
         : b.name.localeCompare(a.name)
     );
 
-  // Reset page to 0 whenever search, filter, or sort changes
+
   useEffect(() => {
     setPage(0);
   }, [searchQuery, filterGender, sortOrder]);
 
-  // Pagination
   const paginatedData = filteredData.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
-  const itemRender = (_, type, originalElement) => {
+  const itemRender = (_: any, type: string, originalElement: React.ReactNode) => {
     if (type === "prev") {
-      return <a style={{ color: "#1890ff", fontWeight: "bold" }}>{t("patient.previous")}</a>;
+      return (
+        <a style={{ color: "#1890ff", fontWeight: "bold" }}>
+          {t("patient.previous")}
+        </a>
+      );
     }
     if (type === "next") {
-      return <a style={{ color: "#1890ff", fontWeight: "bold" }}>{t("patient.next")}</a>;
+      return (
+        <a style={{ color: "#1890ff", fontWeight: "bold" }}>
+          {t("patient.next")}
+        </a>
+      );
     }
     return originalElement;
   };
 
-  // Properly formatted filter menu items for Ant Design v4
-  const filterMenu = {
+  const filterMenu: MenuProps = {
     items: [
       { key: "all", label: "All" },
       { key: "female", label: "Female" },
@@ -267,7 +244,7 @@ const PatientContainer = () => {
     },
   };
 
-  const handleRowSelect = (key) => {
+  const handleRowSelect = (key: string) => {
     setSelectedRowKeys((prevSelected) =>
       prevSelected.includes(key)
         ? prevSelected.filter((k) => k !== key)
@@ -275,7 +252,7 @@ const PatientContainer = () => {
     );
   };
 
-  const handleSelectAll = (e) => {
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       const allKeys = filteredData.map((item) => item.key);
       setSelectedRowKeys(allKeys);
@@ -289,10 +266,9 @@ const PatientContainer = () => {
     allKeys.length > 0 && allKeys.every((key) => selectedRowKeys.includes(key));
   const isIndeterminate =
     selectedRowKeys.length > 0 && selectedRowKeys.length < allKeys.length;
-
   return (
-    <div style={{ padding: 16, backgroundColor: "#EDF4FF", height: "100vh", }} >
-      <Card bordered={false} style={{ margin: "0 auto",maxHeight: "90vh" }}>
+    
+      <Card bordered={false} className="patient-card">
         {isMobile ? (
           <div
             style={{
@@ -303,7 +279,7 @@ const PatientContainer = () => {
             }}
           >
             <Typography.Title level={4} style={{ margin: 0 }}>
-              {t("patient.add_new_patient")}
+            {t("patient.patients_list")}
             </Typography.Title>
             <Button
               style={{
@@ -312,7 +288,8 @@ const PatientContainer = () => {
                 width: "100%",
               }}
               icon={<PlusOutlined />}
-            > {t("patient.add_new_patient")}
+            >
+              {t("patient.add_new_patient")}
             </Button>
             <Input
               placeholder={t("patient.search")}
@@ -324,7 +301,8 @@ const PatientContainer = () => {
             />
             <Dropdown menu={filterMenu} trigger={["click"]}>
               <Button icon={<FilterOutlined />} style={{ width: "100%" }}>
-              {t("patient.filter")} {filterGender !== "All" && `(${filterGender})`}
+                {t("patient.filter")}
+                {filterGender !== "All" && `(${filterGender})`}
               </Button>
             </Dropdown>
             <Button
@@ -359,7 +337,7 @@ const PatientContainer = () => {
                 }}
                 icon={<PlusOutlined />}
               >
-                 {t("patient.add_new_patient")}
+                {t("patient.add_new_patient")}
               </Button>
             </div>
             <hr />
@@ -374,7 +352,7 @@ const PatientContainer = () => {
               }}
             >
               <Input
-                placeholder= {t("patient.search")}
+                placeholder={t("patient.search")}
                 style={{ width: 250, background: "#F1F1F1" }}
                 allowClear
                 prefix={<SearchOutlined />}
@@ -392,7 +370,8 @@ const PatientContainer = () => {
                       height: "36px",
                     }}
                   >
-                   {t("patient.filter")}{filterGender !== "All" && `(${filterGender})`}
+                    {t("patient.filter")}
+                    {filterGender !== "All" && `(${filterGender})`}
                   </Button>
                 </Dropdown>
                 <Button
@@ -413,58 +392,54 @@ const PatientContainer = () => {
             </Space>
           </>
         )}
-
-        <div style={{ overflowX: "auto"}}>
-          <div style={{ minWidth: "1000px", maxHeight: "40vh", overflowY: "auto" }}>
-            <div style={headingRowStyle}>
-              <div style={headingCellStyle.checkbox}>
+        <div className="table-scroll-x">
+          <div className="table-scroll-y">
+            <div className="heading-row">
+              <div className="heading-cell-checkbox">
                 <Checkbox
                   checked={isAllSelected}
                   indeterminate={isIndeterminate}
                   onChange={handleSelectAll}
                 />
               </div>
-              <div style={headingCellStyle.patientName}>{t("patient.patient_name")}</div>
-              <div style={headingCellStyle.hnTn}>{t("patient.hn_tn")}</div>
-              <div style={headingCellStyle.userId}>{t("patient.user_id")}</div>
-              <div style={headingCellStyle.gender}>{t("patient.gender")}</div>
-              <div style={headingCellStyle.dob}>{t("patient.dob")}</div>
-              <div style={headingCellStyle.age}>{t("patient.age")}</div>
-              <div style={headingCellStyle.phone}>{t("patient.phone")}</div>
-              <div style={headingCellStyle.email}>{t("patient.email")}</div>
+              <div className="heading-cell-patientName">
+                {t("patient.patient_name")}
+              </div>
+              <div className="heading-cell-hnTn">{t("patient.hn_tn")}</div>
+              <div className="heading-cell-userId">{t("patient.user_id")}</div>
+              <div className="heading-cell-gender">{t("patient.gender")}</div>
+              <div className="heading-cell-dob">{t("patient.dob")}</div>
+              <div className="heading-cell-age">{t("patient.age")}</div>
+              <div className="heading-cell-phone">{t("patient.phone")}</div>
+              <div className="heading-cell-email">{t("patient.email")}</div>
             </div>
+
 
             {paginatedData.length > 0 ? (
               paginatedData.map((item) => {
                 const isSelected = selectedRowKeys.includes(item.key);
                 return (
-                  <div
-                    key={item.key}
-                    style={{
-                      ...dataRowStyle,
-                      backgroundColor: "#FAFAFA",
-                    }}
-                  >
-                    <div style={dataCellStyle.checkbox}>
+                  <div key={item.key} className="data-row">
+                    <div className="data-cell-checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={() => handleRowSelect(item.key)}
                       />
                     </div>
-                    <div style={dataCellStyle.patientName}>
+                    <div className="data-cell-patientName">
                       <Avatar
                         src={item.image}
                         style={{ marginRight: 10, marginLeft: 10 }}
                       />
                       {item.name}
                     </div>
-                    <div style={dataCellStyle.hnTn}>{item.hn_tn}</div>
-                    <div style={dataCellStyle.userId}>{item.user_id}</div>
-                    <div style={dataCellStyle.gender}>{item.gender}</div>
-                    <div style={dataCellStyle.dob}>{item.dob}</div>
-                    <div style={dataCellStyle.age}>{item.age}</div>
-                    <div style={dataCellStyle.phone}>{item.phone}</div>
-                    <div style={dataCellStyle.email}>{item.email}</div>
+                    <div className="data-cell-hnTn">{item.hn_tn}</div>
+                    <div className="data-cell-userId">{item.user_id}</div>
+                    <div className="data-cell-gender">{item.gender}</div>
+                    <div className="data-cell-dob">{item.dob}</div>
+                    <div className="data-cell-age">{item.age}</div>
+                    <div className="data-cell-phone">{item.phone}</div>
+                    <div className="data-cell-email">{item.email}</div>
                   </div>
                 );
               })
@@ -474,21 +449,24 @@ const PatientContainer = () => {
               </Card>
             )}
           </div>
-          
-          <Pagination
-            current={page + 1}
-            style={{ marginTop: 16, display: "flex", justifyContent: "flex-end" }}
-            pageSize={rowsPerPage}
-            total={filteredData.length}
-            onChange={(newPage) => setPage(newPage - 1)}
-            showSizeChanger={false}
-            itemRender={itemRender}
-          />
-        </div>
 
-        
+         
+        </div>
+         <Pagination
+        current={page + 1}
+        style={{
+          marginTop: 16,
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+        pageSize={rowsPerPage}
+        total={filteredData.length}
+        onChange={(newPage) => setPage(newPage - 1)}
+        showSizeChanger={false}
+        itemRender={itemRender}
+      />
       </Card>
-    </div>
+    
   );
 };
 

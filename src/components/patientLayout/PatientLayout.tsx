@@ -191,9 +191,15 @@ const PatientLayout: React.FC = () => {
         </Header>
         
         
+          <Content
+          style={{
+            margin: "24px 16px",       
+            borderRadius: borderRadiusLG,
+          }}
+        >
           <PatientContainer />
-     
-        
+        </Content>
+
       </Layout>
     </Layout>
   );

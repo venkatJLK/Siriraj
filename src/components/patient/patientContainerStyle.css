@@ -1,0 +1,144 @@
+.patient-container {
+  padding: 10px;
+  padding-bottom: 3%;
+  background-color: #EDF4FF;
+  box-sizing: border-box;
+}
+.patient-card {
+  margin: 0 auto;
+  height: 86vh;           
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;      
+}
+
+
+@media (min-width: 769px) {
+  .patient-card {
+    overflow-y: auto;
+  }
+  .patient-container {
+    padding-bottom: 0; 
+  }
+}
+
+
+.heading-row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.heading-cell-checkbox {
+  width: 5%;
+  text-align: center;
+}
+.heading-cell-patientName {
+  width: 14%;
+  text-align: left;
+}
+.heading-cell-hnTn,
+.heading-cell-userId,
+.heading-cell-gender,
+.heading-cell-dob {
+  width: 10%;
+  text-align: center;
+}
+.heading-cell-age {
+  width: 5%;
+  text-align: center;
+}
+.heading-cell-phone {
+  width: 15%;
+  text-align: center;
+}
+.heading-cell-email {
+  width: 25%;
+  text-align: center;
+}
+
+.data-row {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 12px 0;
+  align-items: center;
+  cursor: pointer;
+  background-color: #FAFAFA;
+}
+
+.data-cell-checkbox {
+  width: 3%;
+  text-align: center;
+}
+.data-cell-patientName {
+  width: 15%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+.data-cell-hnTn,
+.data-cell-userId,
+.data-cell-gender,
+.data-cell-dob {
+  width: 10%;
+  text-align: center;
+}
+.data-cell-age {
+  width: 5%;
+  text-align: center;
+}
+.data-cell-phone {
+  width: 15%;
+  text-align: center;
+}
+.data-cell-email {
+  width: 25%;
+  text-align: center;
+}
+
+
+.table-scroll-x {
+  flex: 1;
+  overflow-x: auto;  
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-scroll-y {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 900px;
+}
+
+
+@media (max-width: 768px) {
+  
+  .patient-card {
+    height: 100%;
+    overflow-x: auto;  
+    max-height: none;
+  }
+  
+  
+  .data-row {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+ 
+  .table-scroll-x {
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+  }
+  
+  
+  .table-scroll-y {
+    max-height: 50vh;
+    overflow-y: auto;
+    min-width: 900px;
+  }
+}
+
