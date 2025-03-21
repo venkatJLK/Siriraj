@@ -57,8 +57,30 @@
 .ant-layout {
   background-color: #EDF4FF;
 }
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #edf4ff !important;
+  width: 100%;
+}
 
+.ant-menu {
+  width: 100% !important;
+}
 
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #edf4ff !important;
+  width: 100%;
+}
+
+.ant-menu-dark .ant-menu-item-selected .anticon,
+.ant-menu-dark .ant-menu-item-selected span {
+  color: rgb(6, 36, 34) !important;
+  font-weight: bold;
+}
+
+.ant-menu-item {
+  margin-inline: 0px !important;
+  border-radius: 0px !important;
+}
 @media (max-width: 768px) {
   .login-left {
     display: none;

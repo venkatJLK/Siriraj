@@ -99,11 +99,17 @@ const PatientLayout: React.FC = () => {
             color: "#fff",
           }}
           items={[
-            { key: "1", icon: <UserOutlined />, label: t("sidebar.overview") },
+            {
+              key: "1",
+              icon: <UserOutlined />,
+              label: t("sidebar.overview"),
+              style: { marginBottom: "8%" },
+            },
             {
               key: "2",
               icon: <VideoCameraOutlined />,
               label: t("sidebar.patients"),
+              style: { marginBottom: "8%" },
             },
             {
               key: "3",
