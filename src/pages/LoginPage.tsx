@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input, Checkbox, Form, Row, Col, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import styles from "./AuthPage.module.css";
 
 const { Title, Text } = Typography;
 
@@ -10,24 +11,24 @@ const LoginPage: React.FC = () => {
   const roles = ["Admin", "Doctor", "Staff"];
 
   return (
-    <Row className="login-container">
-      <Col xs={0} md={12} className="login-left">
+    <Row className={styles.loginContainer}>
+      <Col xs={0} md={12} className={styles.loginLeft}>
         <img
           src="../../src/assets/cms-logo.png"
           alt="CMS Logo"
-          className="cms-logo"
+          className={styles.cmsLogo}
         />
         <img
           src="../../src/assets/login-banner.png"
           alt="Medical Banner"
-          className="login-banner"
+          className={styles.loginBanner}
         />
       </Col>
 
-      <Col xs={24} md={12} className="login-right">
+      <Col xs={24} md={12} className={styles.loginRight}>
         <Title level={3}>Welcome Back!</Title>
         <Text>Please select your role</Text>
-        <Row gutter={16} className="role-selection">
+        <Row gutter={16} className={styles.roleSelection}>
           {roles.map((role) => (
             <Col key={role}>
               <Button
@@ -47,7 +48,7 @@ const LoginPage: React.FC = () => {
         </Row>
 
         <Title level={4}>Sign in</Title>
-        <Form layout="vertical" className="login-form">
+        <Form layout="vertical" className={styles.loginForm}>
           <Form.Item
             name="email"
             rules={[{ required: true, message: "Please enter your email" }]}

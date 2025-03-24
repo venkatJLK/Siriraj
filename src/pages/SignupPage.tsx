@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Input, Button, Typography, Image } from "antd";
-import styles from "./signuppage.module.css";
-import signupImage from "../assets/signup.png"; // Corrected image import
+import styles from "./AuthPage.module.css";
+import signupImage from "../assets/signup.png";
 
 const { Title, Text } = Typography;
 
@@ -24,7 +24,13 @@ export default function SignupPage() {
   return (
     <Row className={styles.container}>
       <Col xs={24} md={12} className={styles.leftPanel}>
-        <Title level={2} className={styles.logoTitle} style={{color:"rgb(27, 181, 181)"}}>MEDLYVES</Title>
+        <Title
+          level={2}
+          className={styles.logoTitle}
+          style={{ color: "rgb(27, 181, 181)" }}
+        >
+          MEDLYVES
+        </Title>
         <Image src={signupImage} alt="Signup" className={styles.imageWrapper} />
       </Col>
 
@@ -35,7 +41,9 @@ export default function SignupPage() {
         <Form layout="vertical" className={styles.formContainer}>
           <Form.Item
             name="firstName"
-            rules={[{ required: true, message: "Please enter your first name!" }]}
+            rules={[
+              { required: true, message: "Please enter your first name!" },
+            ]}
           >
             <Input
               size="large"
@@ -44,10 +52,12 @@ export default function SignupPage() {
               onBlur={(e) => handleBlur("firstName", e)}
             />
           </Form.Item>
-          
+
           <Form.Item
             name="lastName"
-            rules={[{ required: true, message: "Please enter your last name!" }]}
+            rules={[
+              { required: true, message: "Please enter your last name!" },
+            ]}
           >
             <Input
               size="large"
@@ -56,10 +66,16 @@ export default function SignupPage() {
               onBlur={(e) => handleBlur("lastName", e)}
             />
           </Form.Item>
-          
+
           <Form.Item
             name="email"
-            rules={[{ required: true, type: "email", message: "Please enter a valid email!" }]}
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Please enter a valid email!",
+              },
+            ]}
           >
             <Input
               size="large"
@@ -95,7 +111,10 @@ export default function SignupPage() {
         </Form>
 
         <Text>
-          Already have an account? <a href="/login" className={styles.link}>Login</a>
+          Already have an account?{" "}
+          <a href="/login" className={styles.link}>
+            Login
+          </a>
         </Text>
       </Col>
     </Row>

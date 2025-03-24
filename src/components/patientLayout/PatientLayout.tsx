@@ -19,7 +19,9 @@ import {
   theme,
 } from "antd";
 import { useTranslation } from "react-i18next";
-import PatientContainer from "../patient/PatientContainer";
+// import PatientContainer from "../patient/PatientContainer";
+import AntTable from "../common/commonTable/AntTable";
+// import styles from "./PatientLayout.module.css";
 
 const { Header, Sider, Content } = Layout;
 
@@ -204,7 +206,7 @@ const PatientLayout: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <PatientContainer />
+          <AntTable />
         </Content>
       </Layout>
     </Layout>
