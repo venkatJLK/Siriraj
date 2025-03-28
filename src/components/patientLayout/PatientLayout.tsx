@@ -5,8 +5,9 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-  BellOutlined,
+  BellFilled,
   GlobalOutlined,
+  DownOutlined
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -21,7 +22,7 @@ import {
 } from "antd";
 import { useTranslation } from "react-i18next";
 import PatientContainer from "../patient/PatientContainer";
-
+import Images from "../common/image/Images";
 const { Header, Sider, Content } = Layout;
 
 const PatientLayout: React.FC = () => {
@@ -77,8 +78,8 @@ const PatientLayout: React.FC = () => {
       <img
         src={
           collapsed
-            ? "../../src/assets/sidebarsmall.png"
-            : "../../src/assets/sidebarlogo.png"
+            ? Images.small
+            : Images.large
         }
         alt="Logo"
         width={"100%"}
@@ -98,21 +99,22 @@ const PatientLayout: React.FC = () => {
         items={[
           {
             key: "1",
-            icon: <UserOutlined />,
+            icon: <img src={Images.inactive_overview} alt="" height={22} width={22} />,
             label: t("sidebar.overview"),
             style: { marginBottom: "8%" },
           },
           {
             key: "2",
-            icon: <VideoCameraOutlined />,
+            icon: <img src={Images.inactive_patient} alt="" height={22} width={22}   />,
             label: t("sidebar.patients"),
             style: { marginBottom: "8%" },
           },
           {
             key: "3",
-            icon: <UploadOutlined />,
+            icon: <img src={Images.inactive_attendance} alt="" height={22} width={22}  />,
             label: t("sidebar.appointments"),
           },
+          
         ]}
       />
     </div>
@@ -183,25 +185,33 @@ const PatientLayout: React.FC = () => {
               gap: "16px",
             }}
           >
-            <Badge count={3}>
-              <BellOutlined style={{ fontSize: "18px", cursor: "pointer" }} />
-            </Badge>
-
-            <Dropdown overlay={languageMenu} trigger={["click"]}>
+            <Dropdown overlay={languageMenu} trigger={["click"]} >
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   cursor: "pointer",
                   gap: "8px",
+                  padding: "6px 12px",
+                  backgroundColor: "#172947",
+                  color: "#fff",
+                  borderRadius: "8px",
+                  
                 }}
               >
-                <GlobalOutlined style={{ fontSize: "18px" }} />
-                <Typography.Text>
+                 <Typography.Text style={{ color: "#fff" }}>
                   {i18n.language === "en" ? "English" : "ไทย"}
                 </Typography.Text>
+                <GlobalOutlined style={{ fontSize: "18px" }} />
+               
               </div>
             </Dropdown>
+            <Badge count={3}>
+            <BellFilled  style={{ fontSize: "18px", cursor: "pointer", }} />
+             
+            </Badge>
+
+          
 
             <Dropdown overlay={userMenu} placement="bottomRight">
               <div
@@ -218,8 +228,9 @@ const PatientLayout: React.FC = () => {
                 />
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <Typography.Text strong style={{ fontSize: "14px" }}>
-                    Jane Paul
+                    Jane Paul  
                   </Typography.Text>
+                 
                   <Typography.Text
                     type="secondary"
                     style={{ fontSize: "12px" }}
@@ -227,6 +238,7 @@ const PatientLayout: React.FC = () => {
                     Doctor
                   </Typography.Text>
                 </div>
+                <DownOutlined style={{marginRight:"0px 20px"}} />
               </div>
             </Dropdown>
           </div>
