@@ -1,137 +1,104 @@
-.patientContainer {
-  padding: 10px;
-  padding-bottom: 3%;
-  background-color: #EDF4FF;
-  box-sizing: border-box;
+:root {
+  /* Using a dynamic font-size that grows with the viewport,
+     while still ensuring a minimum and maximum size */
+  --base-font-size: clamp(1rem, 2vw, 1.2rem);
+  --base-padding: clamp(0.5rem, 1vw, 1rem);
+
+  /* Table sizing remains fluid but within limits */
+  --min-table-width: clamp(1000px, 50vw, 1000px);
+  --max-table-container-height: clamp(400px, 65vh, 60vh);
 }
 
-.patientCard {
-  margin: 0 auto;
-  height: 86vh;           
+.container {
+  background: #fff;
+  /* Padding will adjust based on the viewport */
+  padding: calc(var(--base-padding) * 2) var(--base-padding);
+  /* The container height can still scale fluidly if desired */
+  height: clamp(300px, 80vh, 100%);
+  overflow: auto;
+  /* All text inside scales with the container */
+  font-size: var(--base-font-size);
+}
+
+.headerRow {
   display: flex;
-  flex-direction: column;
-  overflow: hidden;      
+  justify-content: space-between;
+  align-items: center;
+  margin: calc(var(--base-padding) * 0.5) 0;
 }
 
-@media (min-width: 769px) {
-  .patientCard {
-    overflow-y: auto;
-  }
-  .patientContainer {
-    padding-bottom: 0; 
-  }
+.actionButtons {
+  padding-right: var(--base-padding);
 }
 
-.headingRow {
-  display: flex;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 10px;
+.tableHeader {
+  border-radius: 2%;
+  background: #f6f6f6;
   font-weight: bold;
+  /* Ensuring table header is wide enough for horizontal scrolling */
+  min-width: var(--min-table-width);
+
+  /* Sticky header styles */
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Ensures the header stays above other elements */
 }
 
-.headingCellCheckbox {
-  width: 5%;
-  text-align: center;
-}
-.headingCellPatientName {
-  width: 14%;
-  text-align: left;
-}
-.headingCellHnTn,
-.headingCellUserId,
-.headingCellGender,
-.headingCellDob {
-  width: 10%;
-  text-align: center;
-}
-.headingCellAge {
-  width: 5%;
-  text-align: center;
-}
-.headingCellPhone {
-  width: 15%;
-  text-align: center;
-}
-.headingCellEmail {
-  width: 25%;
-  text-align: center;
+
+/* Remove duplicate avatar rule and use a single rule with dynamic sizing */
+.avatar {
+  width: clamp(30px, 5vw, 42px);
+  height: clamp(30px, 5vw, 46px);
+  border-radius: 15%;
 }
 
-.dataRow {
-  display: flex;
-  flex-direction: row;
-  border-radius: 8px;
-  padding: 10px;
-  margin: 12px 0;
-  align-items: center;
-  cursor: pointer;
-  background-color: #FAFAFA;
+.patientRow {
+  border-radius: 2%;
+  background: #f6f6f6;
+  margin-bottom: var(--base-padding);
+  min-width: var(--min-table-width);
 }
 
-.dataCellCheckbox {
-  width: 3%;
-  text-align: center;
-}
-.dataCellPatientName {
-  width: 15%;
-  text-align: center;
+.avatarName {
   display: flex;
   align-items: center;
-}
-.dataCellHnTn,
-.dataCellUserId,
-.dataCellGender,
-.dataCellDob {
-  width: 10%;
-  text-align: center;
-}
-.dataCellAge {
-  width: 5%;
-  text-align: center;
-}
-.dataCellPhone {
-  width: 15%;
-  text-align: center;
-}
-.dataCellEmail {
-  width: 25%;
-  text-align: center;
+  gap: calc(var(--base-padding) * 0.5);
 }
 
-.tableScrollX {
-  flex: 1;
-  overflow-x: auto;  
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.tableScrollY {
-  flex: 1;
+.tableContainer {
+  overflow-x: auto;
   overflow-y: auto;
-  min-width: 900px;
+  width: 100%;
+  max-width: 100%;
+  max-height: 70%;
+  -webkit-overflow-scrolling: touch;
 }
 
+/* Responsive adjustments for screens below 768px */
 @media (max-width: 768px) {
-  .patientCard {
+  .container {
     height: 100%;
-    overflow-x: auto;  
-    max-height: none;
   }
 
-  .dataRow {
-    font-size: 0.9rem;
-    padding: 10px;
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .tableScrollX {
-    overflow-x: auto; 
-    -webkit-overflow-scrolling: touch; 
+  .actionButtons {
+    padding-right: 0;
+    margin-top: var(--base-padding);
   }
 
-  .tableScrollY {
-    max-height: 50vh;
-    overflow-y: auto;
-    min-width: 900px;
+  .tableHeader,
+  .patientRow {
+    /* The padding and font-size scale naturally with our CSS variables */
+    font-size: var(--base-font-size);
+    padding: var(--base-padding);
+    min-width: var(--min-table-width);
+  }
+
+  .tableContainer {
+    max-height: var(--max-table-container-height);
   }
 }

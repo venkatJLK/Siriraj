@@ -1,472 +1,258 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import styles from "./patientContainerStyle.module.css";
 import {
-  PlusOutlined,
-  FilterOutlined,
-  SortAscendingOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import {
-  Avatar,
-  Button,
   Card,
-  Dropdown,
+  Button,
   Input,
-  Pagination,
-  Space,
-  Typography,
-  Checkbox,
   Row,
   Col,
+  Space,
+  Pagination
 } from "antd";
-import type { MenuProps } from "antd";
-import styles from "./patientContainerStyle.module.css";
-import { t } from "i18next";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  FilterOutlined,
+  SortAscendingOutlined
+} from "@ant-design/icons";
 
-function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+const { Search } = Input;
 
-  useEffect(() => {
-    const media = window.matchMedia(query);
-    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
-  }, [query]);
-
-  return matches;
-}
-
-interface PatientData {
-  key: string;
-  name: string;
-  image: string;
-  hn_tn: string;
-  user_id: string;
-  gender: string;
-  dob: string;
-  age: string;
-  phone: string;
-  email: string;
-}
-
-const PatientContainer: React.FC = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
-
-  // ------------------ STATE ------------------
-  const [page, setPage] = useState<number>(0);
-  const [rowsPerPage] = useState<number>(8);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filterGender, setFilterGender] = useState<"All" | "Female" | "Male">("All");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
-
-  const data: PatientData[] = [
+const PatientContainer = () => {
+  const [patients] = useState([
     {
       key: "1",
-      name: "Barbara Taylor",
-      image: "https://randomuser.me/api/portraits/women/53.jpg",
-      hn_tn: "202108087",
-      user_id: "108087",
+      hn: "202403090",
+      tn: "403090",
+      idCard: "809430",
+      name: "Elizabeth",
+      dob: "29/03/1984",
+      age: 36,
       gender: "Female",
-      dob: "1993-04-04",
-      age: "30",
-      phone: "+1 555-789-0123",
-      email: "barbara.taylor@example.com",
+      avatar: "https://randomuser.me/api/portraits/women/2.jpg"
     },
     {
       key: "2",
-      name: "Elizabeth Polson",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
-      hn_tn: "202403090",
-      user_id: "403090",
-      gender: "Female",
-      dob: "1992-12-29",
-      age: "32",
-      phone: "+91 12345 67890",
-      email: "elizabeth@hotmail.com",
+      hn: "202403091",
+      tn: "403091",
+      idCard: "809431",
+      name: "John",
+      dob: "15/06/1978",
+      age: 45,
+      gender: "Male",
+      avatar: "https://randomuser.me/api/portraits/men/22.jpg"
     },
     {
       key: "3",
-      name: "James Anderson",
-      image: "https://randomuser.me/api/portraits/men/54.jpg",
-      hn_tn: "202105067",
-      user_id: "105067",
-      gender: "Male",
-      dob: "1982-09-09",
-      age: "41",
-      phone: "+1 555-890-1234",
-      email: "james.anderson@example.com",
+      hn: "202403092",
+      tn: "403092",
+      idCard: "809432",
+      name: "Alice",
+      dob: "05/09/1990",
+      age: 33,
+      gender: "Female",
+      avatar: "https://randomuser.me/api/portraits/women/5.jpg"
     },
     {
       key: "4",
-      name: "John Doe",
-      image: "https://randomuser.me/api/portraits/men/45.jpg",
-      hn_tn: "202305045",
-      user_id: "305045",
+      hn: "202403093",
+      tn: "403093",
+      idCard: "809433",
+      name: "Michael",
+      dob: "12/12/1980",
+      age: 42,
       gender: "Male",
-      dob: "1985-07-12",
-      age: "38",
-      phone: "+1 555-234-5678",
-      email: "john.doe@example.com",
+      avatar: "https://randomuser.me/api/portraits/men/89.jpg"
     },
     {
       key: "5",
-      name: "Linda Miller",
-      image: "https://randomuser.me/api/portraits/women/51.jpg",
-      hn_tn: "202004076",
-      user_id: "004076",
+      hn: "202403094",
+      tn: "403094",
+      idCard: "809434",
+      name: "Sarah",
+      dob: "22/08/1985",
+      age: 38,
       gender: "Female",
-      dob: "1995-08-17",
-      age: "28",
-      phone: "+1 555-567-8901",
-      email: "linda.miller@example.com",
+      avatar: "https://randomuser.me/api/portraits/women/22.jpg"
     },
     {
       key: "6",
-      name: "Mary Johnson",
-      image: "https://randomuser.me/api/portraits/women/47.jpg",
-      hn_tn: "202107076",
-      user_id: "107076",
-      gender: "Female",
-      dob: "1990-03-15",
-      age: "33",
-      phone: "+1 555-345-6789",
-      email: "mary.johnson@example.com",
+      hn: "202403095",
+      tn: "403095",
+      idCard: "809435",
+      name: "David",
+      dob: "03/03/1975",
+      age: 48,
+      gender: "Male",
+      avatar: "https://randomuser.me/api/portraits/men/23.jpg"
     },
     {
       key: "7",
-      name: "Michael Davis",
-      image: "https://randomuser.me/api/portraits/men/50.jpg",
-      hn_tn: "202109098",
-      user_id: "109098",
-      gender: "Male",
-      dob: "1988-11-11",
-      age: "34",
-      phone: "+1 555-456-7890",
-      email: "michael.davis@example.com",
+      hn: "202403096",
+      tn: "403096",
+      idCard: "809436",
+      name: "Karen",
+      dob: "17/07/1988",
+      age: 35,
+      gender: "Female",
+      avatar: "https://randomuser.me/api/portraits/women/13.jpg"
     },
     {
       key: "8",
-      name: "Patricia Brown",
-      image: "https://randomuser.me/api/portraits/women/49.jpg",
-      hn_tn: "202306054",
-      user_id: "306054",
-      gender: "Female",
-      dob: "1975-05-30",
-      age: "48",
-      phone: "+61 2 9374 4000",
-      email: "patricia.brown@example.com",
+      hn: "202403097",
+      tn: "403097",
+      idCard: "809437",
+      name: "Robert",
+      dob: "11/11/1972",
+      age: 51,
+      gender: "Male",
+      avatar: "https://randomuser.me/api/portraits/men/7.jpg"
     },
     {
       key: "9",
-      name: "Robert Smith",
-      image: "https://randomuser.me/api/portraits/men/48.jpg",
-      hn_tn: "202208123",
-      user_id: "208123",
-      gender: "Male",
-      dob: "1980-10-22",
-      age: "42",
-      phone: "+44 20 7946 0958",
-      email: "robert.smith@example.com",
+      hn: "202403098",
+      tn: "403098",
+      idCard: "809438",
+      name: "Susan",
+      dob: "24/05/1992",
+      age: 31,
+      gender: "Female",
+      avatar: "https://randomuser.me/api/portraits/women/53.jpg"
     },
     {
       key: "10",
-      name: "William Wilson",
-      image: "https://randomuser.me/api/portraits/men/52.jpg",
-      hn_tn: "202302110",
-      user_id: "302110",
+      hn: "202403099",
+      tn: "403099",
+      idCard: "809439",
+      name: "Daniel",
+      dob: "30/01/1983",
+      age: 40,
       gender: "Male",
-      dob: "1970-01-01",
-      age: "53",
-      phone: "+1 555-678-9012",
-      email: "william.wilson@example.com",
-    },
-  ];
-
-  const filteredData = data
-    .filter((item) => {
-      const query = searchQuery.toLowerCase();
-      return (
-        item.name.toLowerCase().includes(query) ||
-        item.hn_tn.toLowerCase().includes(query) ||
-        item.user_id.toLowerCase().includes(query) ||
-        item.gender.toLowerCase().includes(query) ||
-        item.dob.toLowerCase().includes(query) ||
-        item.age.toString().toLowerCase().includes(query) ||
-        item.phone.toLowerCase().includes(query) ||
-        item.email.toLowerCase().includes(query)
-      );
-    })
-    .filter((item) => {
-      if (filterGender === "All") return true;
-      return item.gender === filterGender;
-    })
-    .sort((a, b) =>
-      sortOrder === "asc"
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
-    );
-
-  useEffect(() => {
-    setPage(0);
-  }, [searchQuery, filterGender, sortOrder]);
-
-  const paginatedData = filteredData.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
-
-  const itemRender = (_: any, type: string, originalElement: React.ReactNode) => {
-    if (type === "prev") {
-      return (
-        <a style={{ color: "#1890ff", fontWeight: "bold" }}>
-          {t("patient.previous")}
-        </a>
-      );
+      avatar: "https://randomuser.me/api/portraits/men/53.jpg"
     }
-    if (type === "next") {
-      return (
-        <a style={{ color: "#1890ff", fontWeight: "bold" }}>
-          {t("patient.next")}
-        </a>
-      );
-    }
-    return originalElement;
+  ]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+  const totalItems = patients.length;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentData = patients.slice(startIndex, endIndex);
+
+  const onSearch = (value) => {
+    console.log("Search value:", value);
   };
 
-  const filterMenu: MenuProps = {
-    items: [
-      { key: "all", label: "All" },
-      { key: "female", label: "Female" },
-      { key: "male", label: "Male" },
-    ],
-    onClick: ({ key }) => {
-      if (key === "all") setFilterGender("All");
-      else if (key === "female") setFilterGender("Female");
-      else if (key === "male") setFilterGender("Male");
-    },
-  };
-
-  const handleRowSelect = (key: string) => {
-    setSelectedRowKeys((prevSelected) =>
-      prevSelected.includes(key)
-        ? prevSelected.filter((k) => k !== key)
-        : [...prevSelected, key]
-    );
-  };
-
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      const allKeys = filteredData.map((item) => item.key);
-      setSelectedRowKeys(allKeys);
-    } else {
-      setSelectedRowKeys([]);
-    }
-  };
-
-  const allKeys = filteredData.map((item) => item.key);
-  const isAllSelected =
-    allKeys.length > 0 && allKeys.every((key) => selectedRowKeys.includes(key));
-  const isIndeterminate =
-    selectedRowKeys.length > 0 && selectedRowKeys.length < allKeys.length;
-    
   return (
-    <Card bordered={false} className={styles.patientCard}>
-      {isMobile ? (
-       
-        <Row gutter={[0, 8]} style={{ marginBottom: 16 }}>
-          <Col span={24}>
-            <Typography.Title level={4} style={{ margin: 0 }}>
-              {t("patient.patients_list")}
-            </Typography.Title>
-          </Col>
-          <Col span={24}>
+    <div className={styles.container}>
+      {/* Header */}
+      <Row className={styles.headerRow} justify="space-between" align="middle">
+        <Col>
+          <h2>Patient List</h2>
+        </Col>
+        <Col>
+          <Space className={styles.actionButtons}>
             <Button
-              style={{
-                backgroundColor: "#A28F60",
-                color: "white",
-                width: "100%",
-              }}
+              type="primary"
               icon={<PlusOutlined />}
+              style={{ background: "#A28F60" }}
             >
-              {t("patient.add_new_patient")}
+              Add New Patient
             </Button>
-          </Col>
-          <Col span={24}>
-            <Input
-              placeholder={t("patient.search")}
-              allowClear
-              prefix={<SearchOutlined />}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: "100%" }}
-            />
-          </Col>
-          <Col span={24}>
-            <Dropdown menu={filterMenu} trigger={["click"]}>
-              <Button icon={<FilterOutlined />} style={{ width: "100%" }}>
-                {t("patient.filter")}
-                {filterGender !== "All" && `(${filterGender})`}
-              </Button>
-            </Dropdown>
-          </Col>
-          <Col span={24}>
-            <Button
-              icon={<SortAscendingOutlined />}
-              onClick={() =>
-                setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
-              }
-              style={{ width: "100%" }}
-            >
-              {t("patient.sort")} ({sortOrder === "asc" ? "Asc" : "Desc"})
-            </Button>
-          </Col>
-        </Row>
-      ) : (
-        // Desktop Layout using Row and Col for header and controls
-        <>
-          <Row justify="space-between" align="middle" style={{ paddingBottom: 16 }}>
-            <Col>
-              <Typography.Title level={4} style={{ margin: 0 }}>
-                {t("patient.patients_list")}
-              </Typography.Title>
-            </Col>
-            <Col>
-              <Button
-                style={{
-                  backgroundColor: "#A28F60",
-                  color: "white",
-                  width: "150px",
-                  height: "36px",
-                }}
-                icon={<PlusOutlined />}
-              >
-                {t("patient.add_new_patient")}
-              </Button>
-            </Col>
+          </Space>
+        </Col>
+      </Row>
+      <hr />
+
+      {/* Search and Filter */}
+      <Row className={styles.headerRow} justify="space-between" align="middle">
+        <Col>
+          <Search
+            placeholder="Search"
+            onSearch={onSearch}
+            style={{ width: 200 }}
+          />
+        </Col>
+        <Col>
+          <Space className={styles.actionButtons}>
+            <Button icon={<FilterOutlined />}>Filter</Button>
+            <Button icon={<SortAscendingOutlined />}>Sort</Button>
+          </Space>
+        </Col>
+      </Row>
+
+      {/* Scrollable Table Container */}
+      <div className={styles.tableContainer}>
+        <Card className={styles.tableHeader}>
+          <Row gutter={[16, 16]} align="middle">
+            <Col xs={4}>HN</Col>
+            <Col xs={4}>TN</Col>
+            <Col xs={4}>ID Card</Col>
+            <Col xs={4}>Patient Name</Col>
+            <Col xs={3}>DOB</Col>
+            <Col xs={2}>Age</Col>
+            <Col xs={2}>Gender</Col>
+            <Col xs={1}>Action</Col>
           </Row>
-          <hr />
-          <Row
-            justify="space-between"
-            align="middle"
-            style={{ marginTop: 10, marginBottom: 16, padding: 8 }}
-          >
-            <Col>
-              <Input
-                placeholder={t("patient.search")}
-                style={{ width: 250, background: "#F1F1F1" }}
-                allowClear
-                prefix={<SearchOutlined />}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </Col>
-            <Col>
-              <Space>
-                <Dropdown menu={filterMenu} trigger={["click"]}>
-                  <Button
-                    icon={<FilterOutlined />}
-                    style={{
-                      background: "#F1F1F1",
-                      borderRadius: "8px",
-                      width: "106px",
-                      height: "36px",
-                    }}
-                  >
-                    {t("patient.filter")}
-                    {filterGender !== "All" && `(${filterGender})`}
-                  </Button>
-                </Dropdown>
+        </Card>
+
+        {currentData.map((patient) => (
+          <Card key={patient.key} className={styles.patientRow}>
+            <Row gutter={[16, 16]} align="middle">
+              <Col xs={4}>{patient.hn}</Col>
+              <Col xs={4}>{patient.tn}</Col>
+              <Col xs={4}>{patient.idCard}</Col>
+              <Col xs={4} className={styles.avatarName}>
+                <img
+                  src={patient.avatar}
+                  className={styles.avatar}
+                  alt={patient.name}
+                />
+                {patient.name}
+              </Col>
+              <Col xs={3}>{patient.dob}</Col>
+              <Col xs={2}>{patient.age}</Col>
+              <Col xs={2}>{patient.gender}</Col>
+              <Col xs={1} style={{ textAlign: "right" }}>
                 <Button
-                  style={{
-                    background: "#F1F1F1",
-                    borderRadius: "8px",
-                    width: "83px",
-                    height: "36px",
-                  }}
-                  icon={<SortAscendingOutlined />}
-                  onClick={() =>
-                    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
-                  }
-                >
-                  {t("patient.sort")}
-                </Button>
-              </Space>
-            </Col>
-          </Row>
-        </>
-      )}
-
-      <div className={styles.tableScrollX}>
-        <div className={styles.tableScrollY}>
-          <div className={styles.headingRow}>
-            <div className={styles.headingCellCheckbox}>
-              <Checkbox
-                checked={isAllSelected}
-                indeterminate={isIndeterminate}
-                onChange={handleSelectAll}
-              />
-            </div>
-            <div className={styles.headingCellPatientName}>
-              {t("patient.patient_name")}
-            </div>
-            <div className={styles.headingCellHnTn}>{t("patient.hn_tn")}</div>
-            <div className={styles.headingCellUserId}>{t("patient.user_id")}</div>
-            <div className={styles.headingCellGender}>{t("patient.gender")}</div>
-            <div className={styles.headingCellDob}>{t("patient.dob")}</div>
-            <div className={styles.headingCellAge}>{t("patient.age")}</div>
-            <div className={styles.headingCellPhone}>{t("patient.phone")}</div>
-            <div className={styles.headingCellEmail}>{t("patient.email")}</div>
-          </div>
-
-          {paginatedData.length > 0 ? (
-            paginatedData.map((item) => {
-              const isSelected = selectedRowKeys.includes(item.key);
-              return (
-                <div key={item.key} className={styles.dataRow}>
-                  <div className={styles.dataCellCheckbox}>
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={() => handleRowSelect(item.key)}
-                    />
-                  </div>
-                  <div className={styles.dataCellPatientName}>
-                    <Avatar
-                      src={item.image}
-                      style={{ marginRight: 10, marginLeft: 10 }}
-                    />
-                    {item.name}
-                  </div>
-                  <div className={styles.dataCellHnTn}>{item.hn_tn}</div>
-                  <div className={styles.dataCellUserId}>{item.user_id}</div>
-                  <div className={styles.dataCellGender}>{item.gender}</div>
-                  <div className={styles.dataCellDob}>{item.dob}</div>
-                  <div className={styles.dataCellAge}>{item.age}</div>
-                  <div className={styles.dataCellPhone}>{item.phone}</div>
-                  <div className={styles.dataCellEmail}>{item.email}</div>
-                </div>
-              );
-            })
-          ) : (
-            <Card style={{ textAlign: "center", height: 65 }}>
-              <Typography>No Data</Typography>
-            </Card>
-          )}
-        </div>
+                  type="text"
+                  icon={<DeleteOutlined />}
+                  danger
+                  onClick={() => console.log("Delete", patient.hn)}
+                />
+              </Col>
+            </Row>
+          </Card>
+        ))}
       </div>
-      <Pagination
-        current={page + 1}
+
+
+      <Row
+        justify="end"
         style={{
-          marginTop: 16,
-          display: "flex",
-          justifyContent: "flex-end",
+          marginTop: "10px",
+          paddingRight: "30px",
+          paddingBottom: "20px"
         }}
-        pageSize={rowsPerPage}
-        total={filteredData.length}
-        onChange={(newPage) => setPage(newPage - 1)}
-        showSizeChanger={false}
-        itemRender={itemRender}
-      />
-    </Card>
+      >
+        <Pagination
+          current={currentPage}
+          total={totalItems}
+          pageSize={pageSize}
+          onChange={setCurrentPage}
+          showSizeChanger={false}
+          itemRender={(page, type, originalElement) => {
+            if (type === "prev") {
+              return "Previous";
+            }
+            if (type === "next") {
+              return "Next";
+            }
+            return originalElement;
+          }}
+        />
+      </Row>
+    </div>
   );
 };
 

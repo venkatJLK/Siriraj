@@ -1,11 +1,13 @@
 .illustration {
   max-width: 80%;
 }
+
 .remember-forgot {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
+
 .button {
   width: 100%;
   font-size: 16px;
@@ -19,8 +21,7 @@
 
 .login-left {
   position: relative;
-  background: url("../../src/assets/login-background.png") no-repeat center
-    center/cover;
+  background: url("../../src/assets/login-background.png") no-repeat center center/cover;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -54,9 +55,11 @@
   width: 100%;
   max-width: 50%;
 }
+
 .ant-layout {
   background-color: #EDF4FF;
 }
+
 .ant-menu-dark .ant-menu-item-selected {
   background-color: #edf4ff !important;
   width: 100%;
@@ -81,8 +84,13 @@
   margin-inline: 0px !important;
   border-radius: 0px !important;
 }
+
 @media (max-width: 768px) {
   .login-left {
     display: none;
   }
+}
+
+.ant-card-body {
+  padding: 0.8% !important;
 }
