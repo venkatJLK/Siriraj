@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import LoginPage from "../pages/LoginPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignupPage from "../pages/SignupPage";
 import PatientLayout from "../components/patientLayout/PatientLayout";

@@ -1,73 +1,87 @@
 import React from "react";
-import { Table } from "antd";
-import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import { Table, Button, Row, Col } from "antd";
+import type { TablePaginationConfig, ColumnsType } from "antd/es/table";
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
+interface AntTableProps<T> {
+  columns: ColumnsType<T>;
+  data: T[];
+  tableHeading: string;
+  buttonAction?: () => void;
 }
 
-const AntTable: React.FC = () => {
-  const columns: ColumnsType<DataType> = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
-  ];
-
-  const data: DataType[] = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-    },
-    {
-      key: "4",
-      name: "Jane Doe",
-      age: 28,
-      address: "Tokyo No. 1 Lake Park",
-    },
-  ];
-
+const AntTable = <T extends object>({
+  columns,
+  data,
+  tableHeading,
+  buttonAction,
+}: AntTableProps<T>) => {
   const paginationConfig: TablePaginationConfig = {
     pageSize: 4,
     showSizeChanger: true,
-    // pageSizeOptions: ["2", "4", "6"],
   };
 
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      pagination={paginationConfig}
-      scroll={{ x: "max-content" }}
-    />
+    <div>
+      <Row
+        gutter={[0, 16]}
+        align="middle"
+        justify="space-between"
+        style={{
+          flexWrap: "wrap",
+        }}
+      >
+        <Col
+          xs={24}
+          sm={12}
+          style={{
+            textAlign: "left",
+            marginBottom: 8,
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              fontSize: "18px",
+            }}
+          >
+            {tableHeading}
+          </h2>
+        </Col>
+        <Col
+          xs={24}
+          sm={12}
+          style={{
+            textAlign: "right",
+            marginBottom: 8,
+          }}
+        >
+          <Button
+            type="primary"
+            style={{
+              width: "100%",
+              maxWidth: 150,
+              backgroundColor: "#A28F60",
+              color: "#fff",
+              borderColor: "#A28F60",
+            }}
+            onClick={buttonAction}
+          >
+            Add New
+          </Button>
+        </Col>
+      </Row>
+
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={paginationConfig}
+        scroll={{ x: "max-content" }}
+        style={{
+          marginTop: 16,
+          borderRadius: 8,
+        }}
+      />
+    </div>
   );
 };
 

@@ -16,38 +16,46 @@ import {
   Layout,
   Menu,
   Typography,
+  Drawer,
   theme,
 } from "antd";
 import { useTranslation } from "react-i18next";
-// import PatientContainer from "../patient/PatientContainer";
-import AntTable from "../common/commonTable/AntTable";
-// import styles from "./PatientLayout.module.css";
+import PatientContainer from "../patient/PatientContainer";
 
 const { Header, Sider, Content } = Layout;
 
 const PatientLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
+  const [collapsed, setCollapsed] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setCollapsed(true);
-      } else {
-        setCollapsed(false);
-      }
+      setIsMobile(window.innerWidth <= 768);
     };
-    handleResize();
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const languageMenu = (
+    <Menu
+      onClick={(e) => changeLanguage(e.key)}
+      items={[
+        { key: "en", label: "English" },
+        { key: "th", label: "ไทย" },
+      ]}
+    />
+  );
 
   const userMenu = (
     <Menu
@@ -62,65 +70,89 @@ const PatientLayout: React.FC = () => {
       ]}
     />
   );
-  const languageMenu = (
-    <Menu
-      onClick={(e) => changeLanguage(e.key)}
-      items={[
-        { key: "en", label: "English" },
-        { key: "th", label: "ไทย" },
-      ]}
-    />
+
+  const sidebarContent = (
+    <div style={{ height: "100vh", backgroundColor: "#172947" }}>
+      <div className="demo-logo-vertical" />
+      <img
+        src={
+          collapsed
+            ? "../../src/assets/sidebarsmall.png"
+            : "../../src/assets/sidebarlogo.png"
+        }
+        alt="Logo"
+        width={"100%"}
+        height={60}
+        style={{ marginBottom: 20 }}
+      />
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={["1"]}
+        style={{
+          marginTop: 20,
+          backgroundColor: "#172947",
+          color: "#fff",
+          width: "100%",
+        }}
+        items={[
+          {
+            key: "1",
+            icon: <UserOutlined />,
+            label: t("sidebar.overview"),
+            style: { marginBottom: "8%" },
+          },
+          {
+            key: "2",
+            icon: <VideoCameraOutlined />,
+            label: t("sidebar.patients"),
+            style: { marginBottom: "8%" },
+          },
+          {
+            key: "3",
+            icon: <UploadOutlined />,
+            label: t("sidebar.appointments"),
+          },
+        ]}
+      />
+    </div>
   );
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        style={{ height: "100vh", backgroundColor: "#172947" }}
-      >
-        <div className="demo-logo-vertical" />
-        <img
-          src={
-            collapsed
-              ? "../../src/assets/sidebarsmall.png"
-              : "../../src/assets/sidebarlogo.png"
-          }
-          alt="Logo"
-          width={"100%"}
-          height={60}
-        />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
+      {!isMobile && (
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          width={250}
           style={{
-            marginTop: 50,
+            height: "100vh",
             backgroundColor: "#172947",
-            color: "#fff",
+            overflow: "hidden",
           }}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: t("sidebar.overview"),
-              style: { marginBottom: "8%" },
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: t("sidebar.patients"),
-              style: { marginBottom: "8%" },
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: t("sidebar.appointments"),
-            },
-          ]}
-        />
-      </Sider>
+        >
+          {sidebarContent}
+        </Sider>
+      )}
+
+      {isMobile && (
+        <Drawer
+          title=""
+          placement="left"
+          closable={false}
+          onClose={() => setDrawerVisible(false)}
+          open={drawerVisible}
+          width={250}
+          bodyStyle={{
+            padding: 0,
+            backgroundColor: "#172947",
+          }}
+        >
+          {sidebarContent}
+        </Drawer>
+      )}
+
       <Layout style={{ flex: 1 }}>
         <Header
           style={{
@@ -134,7 +166,9 @@ const PatientLayout: React.FC = () => {
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() =>
+              isMobile ? setDrawerVisible(true) : setCollapsed(!collapsed)
+            }
             style={{
               fontSize: "16px",
               width: 64,
@@ -197,6 +231,7 @@ const PatientLayout: React.FC = () => {
             </Dropdown>
           </div>
         </Header>
+
         <Content
           style={{
             margin: "24px 16px",
@@ -206,7 +241,7 @@ const PatientLayout: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <AntTable />
+          <PatientContainer />
         </Content>
       </Layout>
     </Layout>
