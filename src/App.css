@@ -22,3 +22,37 @@
   margin-inline: 0px !important;
   border-radius: 0px !important;
 }
+.ant-table-thead > tr > th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+.ant-table-tbody > tr > td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.ant-avatar {
+  border: 1px solid #ddd;
+}
+
+
+.custom-card-row {
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-card-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-btn-dangerous {
+  color: red !important;
+  font-size: 18px !important;
+}
+
+.card-row {
+  padding: 12px 16px;
+  border-bottom:7px solid #eee;
+}
