@@ -153,7 +153,7 @@ const AntTable = <T extends object>({
             >
               <Row gutter={[16, 16]} align="middle">
                 {columns.map((col, colIndex) => (
-                  <Col key={colIndex} span={3} style={{ textAlign: "left" }}>
+                  <Col key={colIndex} span={3} style={{ textAlign: "left" ,paddingLeft: 0}}>
                     {col.render
                       ? col.render(row[col.dataIndex as keyof T], row)
                       : String(row[col.dataIndex as keyof T])}
