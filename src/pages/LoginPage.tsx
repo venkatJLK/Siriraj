@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
     const { email, password } = values;
     if (email === "123" && password === "123") {
       localStorage.setItem("isAuthenticated", "true");
-      navigate("/patient");
+      navigate("/overview");
     } else {
       alert("Invalid email or password!");
     }

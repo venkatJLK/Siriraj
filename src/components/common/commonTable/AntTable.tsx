@@ -13,6 +13,7 @@ interface AntTableProps<T> {
   data: T[];
   tableHeading: string;
   buttonAction?: () => void;
+  onRowClick?: (row: T) => void;
 }
 
 const AntTable = <T extends object>({
@@ -20,6 +21,7 @@ const AntTable = <T extends object>({
   data,
   tableHeading,
   buttonAction,
+  onRowClick,
 }: AntTableProps<T>) => {
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,6 +145,7 @@ const AntTable = <T extends object>({
               key={rowIndex}
               hoverable
               className="custom-card-row"
+              onClick={() => onRowClick && onRowClick(row)}
               style={{
                 marginBottom: 12,
                 border: "none",
@@ -153,7 +156,11 @@ const AntTable = <T extends object>({
             >
               <Row gutter={[16, 16]} align="middle">
                 {columns.map((col, colIndex) => (
-                  <Col key={colIndex} span={3} style={{ textAlign: "left" ,paddingLeft: 0}}>
+                  <Col
+                    key={colIndex}
+                    span={3}
+                    style={{ textAlign: "left", paddingLeft: 0 }}
+                  >
                     {col.render
                       ? col.render(row[col.dataIndex as keyof T], row)
                       : String(row[col.dataIndex as keyof T])}
@@ -162,7 +169,7 @@ const AntTable = <T extends object>({
               </Row>
             </Card>
           ))}
-          <Row justify="center" style={{ marginTop: 16 }}>
+          <Row justify="center" style={{ marginTop: 13 }}>
             <Pagination
               current={currentPage}
               total={data.length}

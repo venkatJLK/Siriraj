@@ -21,8 +21,9 @@ import {
   theme,
 } from "antd";
 import { useTranslation } from "react-i18next";
-import PatientContainer from "../patient/PatientContainer";
+import { useLocation } from "react-router-dom";
 import Images from "../common/image/Images";
+import { Link, Outlet } from "react-router-dom";
 const { Header, Sider, Content } = Layout;
 
 const PatientLayout: React.FC = () => {
@@ -31,6 +32,7 @@ const PatientLayout: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { t, i18n } = useTranslation();
 
+  const location = useLocation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
@@ -85,7 +87,7 @@ const PatientLayout: React.FC = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        selectedKeys={[location.pathname]}
         style={{
           marginTop: 20,
           backgroundColor: "#172947",
@@ -94,7 +96,7 @@ const PatientLayout: React.FC = () => {
         }}
         items={[
           {
-            key: "1",
+            key: "/overview",
             icon: (
               <img
                 src={Images.inactive_overview}
@@ -103,11 +105,11 @@ const PatientLayout: React.FC = () => {
                 width={22}
               />
             ),
-            label: t("sidebar.overview"),
+            label: <Link to="/overview">{t("sidebar.overview")}</Link>,
             style: { marginBottom: "8%" },
           },
           {
-            key: "2",
+            key: "/patients",
             icon: (
               <img
                 src={Images.inactive_patient}
@@ -116,11 +118,11 @@ const PatientLayout: React.FC = () => {
                 width={22}
               />
             ),
-            label: t("sidebar.patients"),
+            label: <Link to="/patients">{t("sidebar.patients")}</Link>,
             style: { marginBottom: "8%" },
           },
           {
-            key: "3",
+            key: "/appointments",
             icon: (
               <img
                 src={Images.inactive_attendance}
@@ -129,7 +131,7 @@ const PatientLayout: React.FC = () => {
                 width={22}
               />
             ),
-            label: t("sidebar.appointments"),
+            label: <Link to="/appointments">{t("sidebar.appointments")}</Link>,
           },
         ]}
       />
@@ -264,7 +266,7 @@ const PatientLayout: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <PatientContainer />
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

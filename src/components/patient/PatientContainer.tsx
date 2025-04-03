@@ -3,6 +3,7 @@ import AntTable from "../common/commonTable/AntTable";
 import { Avatar, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
+import { useNavigate } from "react-router-dom";
 
 interface PatientData {
   key: string;
@@ -17,6 +18,7 @@ interface PatientData {
 }
 
 const PatientContainer = () => {
+  const navigate = useNavigate();
   const tableColumns: ColumnsType<PatientData> = [
     { title: "HN", dataIndex: "hn", key: "hn" },
     { title: "TN", dataIndex: "tn", key: "tn" },
@@ -111,6 +113,9 @@ const PatientContainer = () => {
       columns={tableColumns}
       data={tableData}
       tableHeading="Patient List"
+      onRowClick={(record: { key: any }) =>
+        navigate(`/patient/${record.key}`, { state: record })
+      }
     />
   );
 };
