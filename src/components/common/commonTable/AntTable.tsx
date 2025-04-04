@@ -29,8 +29,12 @@ const AntTable = <T extends object>({
   const updatePageSize = () => {
     const screenHeight = window.innerHeight;
 
-    if (screenHeight < 600) setPageSize(3);
+    if (screenHeight < 550) setPageSize(2);
+    else if (screenHeight < 600) setPageSize(3);
+    else if (screenHeight < 700) setPageSize(4);
     else if (screenHeight < 800) setPageSize(5);
+    else if (screenHeight < 850) setPageSize(6);
+    else if (screenHeight < 900) setPageSize(7);    
     else setPageSize(8);
   };
 
@@ -69,6 +73,7 @@ const AntTable = <T extends object>({
             style={{
               backgroundColor: "#A28F60",
               color: "#fff",
+              marginBottom: 5,
               borderColor: "#A28F60",
             }}
             onClick={buttonAction}
@@ -118,10 +123,13 @@ const AntTable = <T extends object>({
         <div style={{ minWidth: "600px" }}>
           <Row
             style={{
-              backgroundColor: "#f9f9f9",
+              backgroundColor: "#F6F6F6",
               padding: "12px 10px",
               fontWeight: 600,
+              borderRadius: " 15px 15px 0 0",
               borderBottom: "1px solid #ddd",
+              overflowX: "auto", 
+              whiteSpace: "nowrap" 
             }}
           >
             {columns.map((col, index) => (
@@ -132,6 +140,8 @@ const AntTable = <T extends object>({
                   textAlign: "left",
                   fontSize: "12px",
                   fontWeight: 500,
+                  borderRight: index !== columns.length - 1 ? "1px solid #6E6E6E33" : "none",
+                  paddingLeft: index !== columns.length - 1 ? "0.5%" : "none",
                   color: "#333",
                 }}
               >
@@ -150,17 +160,18 @@ const AntTable = <T extends object>({
                 marginBottom: 12,
                 border: "none",
                 borderRadius: 0,
-                backgroundColor: "#F1F1F1",
+                backgroundColor: "#FAFAFA",
               }}
               bodyStyle={{ padding: "12px 14px" }}
             >
               <Row gutter={[16, 16]} align="middle">
                 {columns.map((col, colIndex) => (
-                  <Col
-                    key={colIndex}
-                    span={3}
-                    style={{ textAlign: "left", paddingLeft: 0 }}
-                  >
+                  <Col key={colIndex} span={3} style={{
+                    textAlign: "left",
+                    borderRight: colIndex !== columns.length - 1 ? "1px solid #6E6E6E33" : "none",
+                    paddingLeft: colIndex !== columns.length - 1 ? "0.5%" : "none",  
+                    color: "#6E6E6E",              
+                  }}>
                     {col.render
                       ? col.render(row[col.dataIndex as keyof T], row)
                       : String(row[col.dataIndex as keyof T])}
