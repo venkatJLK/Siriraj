@@ -7,6 +7,7 @@ import LoginPage from "../pages/LoginPage";
 import OverViewContainer from "../components/overview/OverViewContainer";
 import PatientContainer from "../components/patient/PatientContainer";
 import PatientDetails from "../components/patient/PatientDetails";
+import AddPatientForm from "../components/patient/AddPatientForm";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return localStorage.getItem("isAuthenticated") === "true" ? (
@@ -34,6 +35,7 @@ const AppRouter = (): React.JSX.Element => {
       >
         <Route path="overview" element={<OverViewContainer />} />
         <Route path="patients" element={<PatientContainer />} />
+        <Route path="addpatients" element={<AddPatientForm />} />
         <Route path="/patient/:id" element={<PatientDetails />} />
         <Route path="*" element={<Navigate to="/overview" />} />
       </Route>

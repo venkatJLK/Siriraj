@@ -13,7 +13,21 @@ import active_attendance from "../../../assets/active_appointment.png";
 import inactive_attendance from "../../../assets/inactive_appointment.png";
 import language from "../../../assets/language.png";
 import notification from "../../../assets/notification.png";
-
+import image from "../../../assets/6dec3b315b74dfa75e99af5ec19a2b96.png"
+import crop from "../../../assets/crop.svg"
+import user from "../../../assets/user.svg"
+import gender from "../../../assets/Gender.svg"
+import dob from "../../../assets/dob.svg"
+import marital from "../../../assets/Marital Status.svg"
+import thai from "../../../assets/thai.svg"
+import bie from "../../../assets/body element.svg"
+import mobile from "../../../assets/mobile.svg"
+import phone from "../../../assets/Alternate Phone.svg"
+import map from "../../../assets/Alternate Map Marker.svg"
+import gmail from "../../../assets/gmail.svg"
+import maps from "../../../assets/map.svg"
+import gps from "../../../assets/gps.svg"
+import global from "../../../assets/global.svg"
 const Images = {
   logo_img,
   small,
@@ -30,6 +44,21 @@ const Images = {
   inactive_attendance,
   language,
   notification,
+  image,
+  crop,
+  user,
+  gender,
+  dob,
+  marital,
+  thai,
+  bie,
+  mobile,
+  phone,
+  gmail,
+  map,
+  maps,
+  gps,
+  global
 };
 
 export default Images;
