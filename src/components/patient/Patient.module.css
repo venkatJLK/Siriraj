@@ -1,0 +1,160 @@
+.form {
+  width: 100%;
+  height: 100%;
+  padding: 0%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.leftCard,
+.rightCard {
+  width: 100%;
+  max-width: 100%;
+}
+
+.imageWrapper {
+  width: 100%;
+  max-width: 240px;
+
+}
+
+.responsiveImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+
+}
+
+.formlogo {
+  margin-right: 4px;
+}
+
+.cropButton {
+  width: 100%;
+  max-width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+  margin-left: 20%;
+  background-color: white;
+  color: #a28f60;
+  border: 1px solid #a28f60;
+  border-radius: 5px;
+}
+
+.inputField,
+.selectField,
+.datePicker,
+.darkTextArea {
+  width: 100%;
+  height: 45px;
+  font-size: 16px;
+}
+
+.darkTextArea {
+  height: auto;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 5rem;
+}
+
+.saveButton {
+  background-color: #a28f60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 100px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+/* Override default antd hover style */
+.saveButton:hover {
+  background-color: #a28f60da !important;
+  color: white;
+}
+
+
+.cancelButton {
+  width: 100px;
+  font-size: 16px;
+  color: #a28f60;
+  border: 1px solid #a28f60;
+}
+
+.cancelButton:hover {
+  background-color: white;
+  color: #a28f60da !important;
+}
+
+
+.sectionHeading {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.5% 0;
+  color: #333;
+}
+
+.medicalSectionHeading {
+  background-color: #172947;
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.noteCard {
+  background-color: #E6E6E6;
+  padding-bottom: 50%;
+
+}
+
+
+@media screen and (max-width: 1024px) and (min-width: 767px) {
+  .form {
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .form {
+    padding: 10px;
+    max-height: 100%;
+    overflow-y: auto;
+
+  }
+
+  .cropButton {
+    width: 100%;
+
+    margin: 10px;
+  }
+
+  .inputField,
+  .selectField,
+  .datePicker,
+  .darkTextArea {
+    height: 52px;
+    font-size: 14px;
+  }
+
+  .cancelButton,
+  .saveButton {
+    width: 80%;
+    font-size: 14px;
+  }
+}
+
+.inputField .ant-input-prefix {
+  margin-right: 20%;
+}

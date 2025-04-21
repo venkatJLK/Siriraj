@@ -7,7 +7,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-
+import { useNavigate } from "react-router-dom";
 interface AntTableProps<T> {
   columns: ColumnsType<T>;
   data: T[];
@@ -46,6 +46,7 @@ const AntTable = <T extends object>({
 
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedData = data.slice(startIndex, startIndex + pageSize);
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -76,8 +77,8 @@ const AntTable = <T extends object>({
               marginBottom: 5,
               borderColor: "#A28F60",
             }}
-            onClick={buttonAction}
-          >
+            onClick={() => navigate("/addpatients")}
+          > 
             Add New Patient
           </Button>
         </Col>
